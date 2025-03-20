@@ -1,26 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
-import '../../dashboard.dart';
-import '../../navigation_provider.dart';
-import 'bloc/news_bloc.dart';
-import 'data/api/api_library.dart';
+import '../../home.dart';
+import '../login/login.dart';
 
 void main() {
-  /* runApp(BlocProvider(
-    create: (context) => ExpenseBloc(db: DBHelper.getInstance()),
-    child: splash_screen(),
-  )); */
-  runApp(MultiBlocProvider(
-    providers: [
-      BlocProvider(
-        create: (context) => NewsBloc(apiHelper: ApiHelper()),
-      ),
-      ChangeNotifierProvider(create: (context) => NavigationProvider(),)
-    ],
-    child: splash_screen(),
-  ));
+  runApp(splash_screen());
 }
 
 class splash_screen extends StatelessWidget {
@@ -47,7 +31,7 @@ class _splashstate extends State<splashScreen> {
     super.initState();
     Timer(const Duration(seconds: 5),() async{
 
-      Widget navigateTo = dashboard();
+      Widget navigateTo = loginpage();
 
       Navigator.pushReplacement(
           context,
@@ -61,7 +45,7 @@ class _splashstate extends State<splashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Image.asset(
-        "assets/images/splash.png",
+        "lib/domain/app/assets/images/splash.png",
         fit: BoxFit.fitWidth,
         height: double.infinity,
         width: double.infinity,
