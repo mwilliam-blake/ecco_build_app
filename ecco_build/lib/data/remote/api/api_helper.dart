@@ -34,10 +34,10 @@ class ApiHelper {
         var data = jsonDecode(response.body);
         return data;
       }
-      /* case 422: {
-        print("error");
-        throw InvalidException(errorMsg: response.body.toString());
-      } */
+       case 422: {
+        var data = jsonDecode(response.body);
+        throw InvalidData(errorMsg: data['message'].toString());
+      }
       case 400: throw BadRequestException(errorMsg: response.body.toString());
       case 401:
       case 403: throw UnAuthorisedException(errorMsg: response.body.toString());

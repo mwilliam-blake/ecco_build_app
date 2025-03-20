@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:ecco_build/data/remote/api/app_exception.dart';
 import 'package:ecco_build/ui/screens/bloc/register/register_event.dart';
 import 'package:ecco_build/ui/screens/bloc/register/register_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../data/remote/api/api_helper.dart';
+import '../../../../data/remote/api/app_exception.dart';
 import '../../../../data/remote/api/url_helper.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
@@ -15,7 +15,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     on<RegisterUserEvent>((event, emit) async {
       emit(RegisterLoadingState());
         try {
-              dynamic res = await apiHelper.postAPI(url: Urls.RegAPIUrl, bodyParams: {
+          dynamic res = await apiHelper.postAPI(url: Urls.RegAPIUrl, bodyParams: {
             "fname": event.fname,
             "lname": event.lname,
             "username": event.uname,
@@ -29,15 +29,13 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             "comments": event.notes,
           });
 
-
           if (res['status']==200) {
             emit(RegisterLoadedState());
           } else {
-            print("issue");
             emit(RegisterErrorState(errorMsg: res['message']));
           }
         } catch (e) {
-          print("New issue");
+          //emit(RegisterErrorState(errorMsg: e.toString()));
           emit(RegisterErrorState(errorMsg: (e as AppExceptions).toErrorMsg()));
         }
 
